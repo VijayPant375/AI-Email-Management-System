@@ -30,7 +30,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT COUNT(*) as duplicate_count \nFROM emails \nWHERE sender_email = '{{ $json.From }}' \nAND subject = '{{ $json.Subject }}' \nAND received_time >= NOW() - INTERVAL '24 hours';",
+        "query": "SELECT COUNT(*) as duplicate_count \nFROM emails \nWHERE sender_email = '{{ $('Prepare Email Data1').item.json.sender }}' \nAND subject = '{{ $('Prepare Email Data1').item.json.subject }}' \nAND received_time >= NOW() - INTERVAL '24 hours';",
         "options": {}
       },
       "id": "77f5d7c1-6f38-4067-9cf0-a2444a6609fe",
@@ -173,6 +173,16 @@
               "displayName": "id",
               "required": false,
               "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true,
@@ -606,15 +616,15 @@
           "values": [
             {
               "name": "sender",
-              "stringValue": "={{ $json.From }}"
+              "stringValue": "={{ $json.From || $json.from }}"
             },
             {
               "name": "subject",
-              "stringValue": "={{ $json.Subject }}"
+              "stringValue": "={{ $json.Subject || $json.subject }}"
             },
             {
               "name": "body",
-              "stringValue": "={{ $json.snippet }}"
+              "stringValue": "={{ ($json.snippet || $json.textPlain || '').split('\\r\\n')[0].trim() }}"
             },
             {
               "name": "received_time",
@@ -1199,6 +1209,20 @@
       ],
       "id": "2f9b6832-c3b5-4f2c-ba0d-d72435835964",
       "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        -4480,
+        576
+      ],
+      "id": "9e4b51b0-0af4-41cc-978a-11166acbae27",
+      "name": "Zoho Trigger",
+      "credentials": {}
     }
   ],
   "pinData": {},
@@ -1537,6 +1561,17 @@
           }
         ]
       ]
+    },
+    "Zoho Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1545,7 +1580,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "0299b071-212e-4dc1-94d0-939926c9a81b",
+  "versionId": "70e004be-764b-481d-bee9-51be8b4199d5",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "33d3118021c86740b1a15c617d0d9d55d063df19d7374e00a1b8953c3734f20d"
