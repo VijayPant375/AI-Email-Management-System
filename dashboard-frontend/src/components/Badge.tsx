@@ -17,25 +17,25 @@ interface BadgeProps {
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   "priority-high":
-    "bg-red-50 text-red-700 ring-1 ring-red-200",
+    "bg-red-50 text-red-700 ring-1 ring-red-200 dark:bg-red-900/20 dark:text-red-400 dark:ring-red-900/50",
   "priority-medium":
-    "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
+    "bg-amber-50 text-amber-700 ring-1 ring-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:ring-amber-900/50",
   "priority-low":
-    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:ring-emerald-900/50",
   "sentiment-angry":
-    "bg-red-50 text-red-700 ring-1 ring-red-200",
+    "bg-red-50 text-red-700 ring-1 ring-red-200 dark:bg-red-900/20 dark:text-red-400 dark:ring-red-900/50",
   "sentiment-neutral":
-    "bg-slate-100 text-slate-600 ring-1 ring-slate-200",
+    "bg-slate-100 text-slate-600 ring-1 ring-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:ring-slate-700",
   "sentiment-positive":
-    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:ring-emerald-900/50",
   "status-replied":
-    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+    "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:ring-emerald-900/50",
   "status-pending":
-    "bg-slate-100 text-slate-500 ring-1 ring-slate-200",
+    "bg-slate-100 text-slate-500 ring-1 ring-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:ring-slate-700",
   category:
-    "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+    "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:ring-indigo-900/50",
   review:
-    "bg-purple-50 text-purple-700 ring-1 ring-purple-200",
+    "bg-purple-50 text-purple-700 ring-1 ring-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:ring-purple-900/50",
 };
 
 export function Badge({ variant, label }: BadgeProps) {
