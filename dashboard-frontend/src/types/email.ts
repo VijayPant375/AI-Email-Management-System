@@ -1,6 +1,8 @@
 export interface Email {
   id: number;
   sender_email: string;
+  receiver_email?: string | null;
+  To?: string | null;
   subject: string;
   email_body: string;
   category: string;

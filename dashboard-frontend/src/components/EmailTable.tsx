@@ -21,10 +21,13 @@ export default function EmailTable({ emails }: EmailTableProps) {
             {/* Sticky header */}
             <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[18%]">
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[16%]">
                   Sender
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[28%]">
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[16%]">
+                  Receiver
+                </th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[24%]">
                   Subject
                 </th>
                 <th className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider w-[10%]">
@@ -46,7 +49,13 @@ export default function EmailTable({ emails }: EmailTableProps) {
             </thead>
 
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-50 dark:divide-gray-700/50">
-              {emails.map((email, index) => (
+              {emails.map((email, index) => {
+                const receiverEmail =
+                  email.receiver_email?.trim() ||
+                  email.To?.trim() ||
+                  "N/A";
+
+                return (
                 <motion.tr
                   key={email.id}
                   initial={{ opacity: 0, y: 4 }}
@@ -66,6 +75,21 @@ export default function EmailTable({ emails }: EmailTableProps) {
                       </div>
                       <span className="font-semibold text-gray-800 dark:text-gray-200 truncate max-w-[140px] text-xs">
                         {email.sender_email}
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* Receiver */}
+                  <td className="px-4 py-3.5 whitespace-nowrap">
+                    <div
+                      className="flex items-center gap-2.5"
+                      title={receiverEmail}
+                    >
+                      <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 text-[10px] font-bold shrink-0 uppercase">
+                        {receiverEmail === "N/A" ? "?" : receiverEmail.charAt(0)}
+                      </div>
+                      <span className="font-semibold text-gray-800 dark:text-gray-200 truncate max-w-[140px] text-xs">
+                        {receiverEmail}
                       </span>
                     </div>
                   </td>
@@ -117,7 +141,8 @@ export default function EmailTable({ emails }: EmailTableProps) {
                     <StatusBadge replied={email.response_sent} />
                   </td>
                 </motion.tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
