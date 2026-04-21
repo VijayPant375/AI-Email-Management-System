@@ -15,6 +15,10 @@ export default function EmailDetailPanel({
   email,
   onClose,
 }: EmailDetailPanelProps) {
+  const receiverEmail = email
+    ? (email.receiver_email || email.To || "N/A").replace(/"/g, "")
+    : "N/A";
+
   // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -79,6 +83,11 @@ export default function EmailDetailPanel({
                 <MetaItem icon={<Mail size={14} className="text-indigo-500 dark:text-indigo-400" />} label="From">
                   <span className="text-sm text-gray-900 dark:text-gray-200 font-bold break-all">
                     {email.sender_email}
+                  </span>
+                </MetaItem>
+                <MetaItem icon={<Mail size={14} className="text-indigo-500 dark:text-indigo-400" />} label="To">
+                  <span className="text-sm text-gray-900 dark:text-gray-200 font-bold break-all">
+                    {receiverEmail}
                   </span>
                 </MetaItem>
                 <MetaItem icon={<Clock size={14} className="text-indigo-500 dark:text-indigo-400" />} label="Received">

@@ -50,10 +50,7 @@ export default function EmailTable({ emails }: EmailTableProps) {
 
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-50 dark:divide-gray-700/50">
               {emails.map((email, index) => {
-                const receiverEmail =
-                  email.receiver_email?.trim() ||
-                  email.To?.trim() ||
-                  "N/A";
+                const receiverEmail = (email.receiver_email || email.To || "N/A").replace(/"/g, "");
 
                 return (
                 <motion.tr
