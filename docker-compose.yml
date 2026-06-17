@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: email_automation_db
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: email_automation
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Optionally, you can add an init script here if you have one
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - automation_network
+
+  n8n:
+    image: n8nio/n8n
+    container_name: email_automation_n8n
+    restart: always
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=email_automation
+      - DB_POSTGRESDB_USER=root
+      - DB_POSTGRESDB_PASSWORD=rootpassword
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=password
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=UTC
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - postgres
+    networks:
+      - automation_network
+
+  frontend:
+    build:
+      context: ./dashboard-frontend
+      dockerfile: Dockerfile
+    container_name: email_automation_frontend
+    restart: always
+    environment:
+      # Use internal docker networking to reach DB for stats/emails
+      - DATABASE_URL=postgresql://root:rootpassword@postgres:5432/email_automation
+      # Provide your API key dynamically or statically for the Test UI
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - automation_network
+
+volumes:
+  postgres_data:
+  n8n_data:
+
+networks:
+  automation_network:
+    driver: bridge

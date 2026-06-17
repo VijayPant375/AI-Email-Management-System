@@ -22,18 +22,18 @@ export default function Sidebar() {
       id="app-sidebar"
     >
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-5 h-16 border-b border-white/10">
-        <div className="w-7 h-7 rounded-lg bg-indigo-500 flex items-center justify-center shrink-0">
-          <Zap size={14} className="text-white" />
+      <div className="flex items-center gap-2.5 px-5 h-16 border-b border-gray-200 dark:border-white/10">
+        <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0">
+          <Mail size={14} className="text-white" />
         </div>
-        <span className="text-white font-semibold text-sm tracking-wide">
-          MailAI
+        <span className="text-gray-900 dark:text-white font-bold text-sm tracking-wide">
+          MailFlow
         </span>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto border-r border-[var(--sidebar-border)] dark:border-transparent">
+        <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-500 dark:text-white/40">
           Main
         </p>
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
@@ -45,12 +45,12 @@ export default function Sidebar() {
               href={href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 group ${
                 isActive
-                  ? "bg-white/10 text-white"
-                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                  ? "bg-indigo-50 dark:bg-white/10 text-indigo-700 dark:text-white"
+                  : "text-gray-600 dark:text-white/50 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white/80"
               }`}
               style={
                 isActive
-                  ? { boxShadow: "inset 2px 0 0 #6366f1" }
+                  ? { boxShadow: "inset 3px 0 0 #6366f1" }
                   : undefined
               }
             >
@@ -58,8 +58,8 @@ export default function Sidebar() {
                 size={16}
                 className={`shrink-0 transition-colors ${
                   isActive
-                    ? "text-indigo-400"
-                    : "text-white/30 group-hover:text-white/60"
+                    ? "text-indigo-600 dark:text-indigo-400"
+                    : "text-gray-400 dark:text-white/30 group-hover:text-gray-600 dark:group-hover:text-white/60"
                 }`}
               />
               {label}
@@ -71,9 +71,6 @@ export default function Sidebar() {
       {/* Footer */}
       <div className="px-4 py-4 border-t border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 text-xs font-semibold shrink-0">
-            VP
-          </div>
           <div className="min-w-0">
             <p className="text-xs font-medium text-white/80 truncate">
               Vijay Pant

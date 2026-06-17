@@ -5,12 +5,7 @@
 @theme inline {
   /* Sidebar */
   --sidebar-width: 240px;
-  --sidebar-bg: #0f1117;
-  --sidebar-text: #a1a8b8;
-  --sidebar-active-text: #ffffff;
-  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
-  --sidebar-active-border: #6366f1;
-
+  
   /* Surface */
   --color-surface: #ffffff;
   --color-surface-muted: #f8f9fc;
@@ -37,10 +32,14 @@
 :root {
   --background: #f8f9fc;
   --foreground: #0f1117;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e5e7eb;
 }
 .dark {
   --background: #0f1117;
   --foreground: #f8f9fc;
+  --sidebar-bg: #141720;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
