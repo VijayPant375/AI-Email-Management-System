@@ -26,12 +26,14 @@ Designed for teams and individuals who need scalable, intelligent email handling
 | Feature | Description |
 |---|---|
 | 📥 Automatic Email Retrieval | Pulls incoming emails in real-time via **IMAP trigger** |
-| 🧠 AI Classification | Categorizes emails using an **LLM (OpenAI)** |
+| 🧠 AI Classification | Categorizes emails using an **LLM (OpenAI / Gemini)** |
 | 🗂️ Intelligent Routing | Directs each email to the appropriate response handler based on category |
 | 💾 Structured Storage | Persists all email data and metadata to **PostgreSQL** |
 | 📊 Response Tracking | Logs response status and timestamps for every email processed |
 | 🤖 Automated Responses | Sends context-appropriate replies via **SMTP / Gmail** |
 | 🔄 Status Sync | Updates the database after each response is delivered |
+| 🖥️ Live Dashboard | A modern Next.js frontend to monitor the classification queue, breakdown stats, and test real-time AI classification |
+| 🐳 Local Orchestration | A `docker-compose.yml` to instantly spin up n8n, PostgreSQL, and the frontend dashboard locally |
 
 ---
 
@@ -88,10 +90,12 @@ The AI classifier assigns each email to one of the following categories, each tr
 | Layer | Technology |
 |---|---|
 | Workflow Automation | [n8n](https://n8n.io) |
+| Frontend Dashboard | [Next.js](https://nextjs.org) + Tailwind CSS |
 | Email Retrieval | IMAP Email Trigger |
-| AI Classification | [OpenAI API](https://openai.com) (or compatible LLM) |
+| AI Classification | [OpenAI API](https://openai.com) or [Google Gemini](https://deepmind.google/technologies/gemini/) |
 | Database | [PostgreSQL](https://www.postgresql.org) |
 | Email Delivery | SMTP / Gmail Node |
+| Orchestration | Docker Compose |
 
 ---
 
@@ -109,35 +113,42 @@ The AI classifier assigns each email to one of the following categories, each tr
 
 1. **Clone the repository**
 ```bash
-   git clone https://github.com/VijayPant375/AI-Email-Management-Automation.git
-   cd AI-Email-Management-Automation
+   git clone https://github.com/VijayPant375/AI-Email-Management-System.git
+   cd AI-Email-Management-System
 ```
 
-2. **Import the workflow**
-   - Open your n8n instance
-   - Go to **Workflows → Import from file**
-   - Select `workflow.json`
+2. **Run Locally via Docker Compose**
+   - Rename `dashboard-frontend/.env.example` to `.env` and add your keys (e.g. `GEMINI_API_KEY`).
+   - Run the orchestrator:
+     ```bash
+     docker-compose up --build -d
+     ```
+   - This spins up PostgreSQL, n8n (port `5678`), and the Next.js frontend (port `3000`).
 
-3. **Configure credentials** in n8n:
+3. **Import the workflow**
+   - Open your local n8n instance at `http://localhost:5678` (Credentials: admin / password).
+   - Go to **Workflows → Import from file** and select `workflow.json`.
+
+4. **Configure credentials** in n8n:
    - `IMAP` — Incoming email account credentials
    - `SMTP / Gmail` — Outbound email credentials
-   - `OpenAI API Key` — [Get one here](https://platform.openai.com/api-keys)
-   - `PostgreSQL` — Host, port, database name, username, and password
-
-4. **Set up the database**
-   - Ensure your PostgreSQL instance is running
-   - Create the required table(s) to match the workflow's insert/update nodes
+   - `OpenAI / Gemini API Key`
+   - `PostgreSQL` — Point to the running postgres container instance.
 
 5. **Activate the workflow**
-   - Toggle the workflow to **Active** in n8n
-   - The IMAP trigger will begin polling for new emails automatically
+   - Toggle the workflow to **Active** in n8n. The IMAP trigger will begin polling.
+
+6. **View the Dashboard**
+   - Navigate to `http://localhost:3000` to see real-time stats and test your AI classifications!
 
 ---
 
 ## 📁 Repository Structure
 ```
 .
-└── workflow.json       # n8n workflow export (import directly into n8n)
+├── dashboard-frontend/   # Next.js web application for monitoring and testing
+├── docker-compose.yml    # Docker orchestration for n8n, postgres, and frontend
+└── workflow.json         # n8n workflow export (import directly into n8n)
 ```
 
 ---
